@@ -1,0 +1,103 @@
+= MultidispatchDSL
+
+If you know another to Ruby programming languages, you probably know multi dispatch feature - define method with
+different number of arguments of different types. In Ruby with it duck typing you cannot do it from out box. This
+gem will allow you to do it.
+
+== Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'multidispatch_dsl'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install multidispatch_dsl
+
+== Usage
+
+Just include MultidispatchDSL into your class and your will get `mdef` class method. For example
+
+  class TestClass
+    include MultidispatchDSL
+
+    # hello method with one integer argument
+    mdef(:hello, Fixnum) do |i|
+      "Fixnum version with number #{ i }"
+    end
+
+    # hello method with one string argument
+    mdef(:hello, String) do |str|
+      "String version with string #{ str }"
+    end
+
+    # hello method with fixnum and string arguments
+    mdef(:hello, Fixnum, String) do |i, str|
+      "Fixnum String version with #{ i } & #{ str }"
+    end
+
+    # hello method with string and fixnum arguments
+    mdef(:hello, String, Fixnum) do |str, i|
+      "String Fixnum version with #{ str } & #{ i }"
+    end
+
+    # hello method without arguments
+    mdef(:hello) do
+      "Version without args"
+    end
+
+    # hello method with symbol argument
+    mdef(:hello, Symbol) do |symbol|
+      "Symbol version with :#{ symbol } & :#{ internal_method }"
+    end
+
+    # hello method with 2 string argument and nested block
+    mdef(:hello, String, String) do |str_one, str_two, &block|
+      instance_exec(str_one.upcase, str_two.downcase, &block)
+    end
+
+    def internal_method
+      :internal_method
+    end
+  end
+
+  test_instance = TestClass.new
+
+  test_instance.hello
+  #=> "Version without args"
+
+  test_instance.hello(1)
+  #=> "Fixnum version with number 1"
+
+  test_instance.hello(:foo)
+  #=> "Symbol version with :foo & :internal_method"
+
+  test_instance.hello(1, "string")
+  #=> "Fixnum String version with 1 & string"
+
+  test_instance.hello("string", 1)
+  #=> "String Fixnum version with string & 1"
+
+  test_instance.hello(:not, :defined)
+  #=> raise error MultidispatchDSL::MissingDeclarationError
+
+  test_instance.hello('One', 'Two') { |str_one, str_two| "#{str_one} #{ str_two } #{ internal_method }" }
+  #=> "ONE two internal_method"
+
+As you can see defining version of method with *yield* is little bit tricky. That because defining method from block add extra scope. More details about it here http://www.andylindeman.com/2011/01/08/defining-methods-using-blocks-in-ruby.html
+
+If you desire add this functionality to all classes just include MultidispatchDSL to Object class:
+
+  Object.send(:include, MultidispatchDSL)
+
+== Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
