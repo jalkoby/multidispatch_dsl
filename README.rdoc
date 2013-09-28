@@ -1,7 +1,7 @@
 = MultidispatchDSL
 
-If you know another to Ruby programming languages, you probably know multi dispatch feature - define method with
-different number of arguments of different types. In Ruby with it duck typing you cannot do it from out box. This
+If you worked with other languages you probably know multi dispatch feature - define variants of same method with
+different number of arguments of different types. In Ruby with it's duck typing you cannot do it from out of box. This
 gem will allow you to do it.
 
 {<img src="https://codeclimate.com/github/jalkoby/multidispatch_dsl.png" />}[https://codeclimate.com/github/jalkoby/multidispatch_dsl]
