@@ -4,6 +4,9 @@ If you know another to Ruby programming languages, you probably know multi dispa
 different number of arguments of different types. In Ruby with it duck typing you cannot do it from out box. This
 gem will allow you to do it.
 
+{<img src="https://codeclimate.com/github/jalkoby/multidispatch_dsl.png" />}[https://codeclimate.com/github/jalkoby/multidispatch_dsl]
+{<img src="https://travis-ci.org/jalkoby/uni_sender_gem.png?branch=master" alt="Build Status" />}[https://travis-ci.org/jalkoby/uni_sender_gem]
+
 == Installation
 
 Add this line to your application's Gemfile:
@@ -93,6 +96,10 @@ As you can see defining version of method with *yield* is little bit tricky. Tha
 If you desire add this functionality to all classes just include MultidispatchDSL to Object class:
 
   Object.send(:include, MultidispatchDSL)
+
+== Requirements
+
+  Ruby >= 1.9.2 and other ruby implementations with 1.9 mode
 
 == Contributing
 
