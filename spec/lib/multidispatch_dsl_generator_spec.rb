@@ -20,4 +20,11 @@ describe MultidispatchDSL::Generator do
       described_class.declaration_from_args(args)
     end
   end
+
+  it 'allow set default case' do
+    WidgetSerializer.process("string").should == { :string => "string" }
+    WidgetSerializer.process(1).should == { :int => 1 }
+    WidgetSerializer.process(:symbol).should == { :anything => :symbol }
+    WidgetSerializer.process([:array]).should == { :anything => [:array] }
+  end
 end

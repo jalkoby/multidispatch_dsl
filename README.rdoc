@@ -93,6 +93,20 @@ Just include MultidispatchDSL into your class and your will get `mdef` class met
 
 As you can see defining version of method with *yield* is little bit tricky. That because defining method from block add extra scope. More details about it here http://www.andylindeman.com/2011/01/08/defining-methods-using-blocks-in-ruby.html
 
+If you need define version of method for any number arguments of any types use `:anything` symbol
+
+  mdef(:process, String) do |value|
+    { :string => value }
+  end
+
+  mdef(:process, Fixnum) do |value|
+    { :int => value }
+  end
+
+  mdef(:process, :anything) do |value|
+    { :anything => value }
+  end
+
 If you desire add this functionality to all classes just include MultidispatchDSL to Object class:
 
   Object.send(:include, MultidispatchDSL)
